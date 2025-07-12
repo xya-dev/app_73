@@ -5,7 +5,7 @@ config :app_73, App73.Repo,
   username: "postgres",
   password: "postgres",
   hostname: "localhost",
-  database: "app_73_dev",
+  database: "app_73",
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
