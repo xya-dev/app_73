@@ -1,0 +1,35 @@
+services:
+  postgres:
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: project42
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+  # app1:
+  #   build: 
+  #     dockerfile: Containerfile
+  #   environment:
+  #     DATABASE_URL: ecto://user:password@postgres/project42
+  #     SECRET_KEY_BASE: P+N/NJ+aQTJ0kPQbqe8+hJBJQb5PEqqgKS98/ky6EhpOfI4T4Y65a1cuL3C0D/R1
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+  #       restart: true
+  # app2:
+  #   build: 
+  #     dockerfile: Containerfile
+  #   environment:
+  #     DATABASE_URL: ecto://user:password@postgres:5432/project42
+  #     SECRET_KEY_BASE: P+N/NJ+aQTJ0kPQbqe8+hJBJQb5PEqqgKS98/ky6EhpOfI4T4Y65a1cuL3C0D/R1
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+  #       restart: true
