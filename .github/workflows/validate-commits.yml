@@ -1,16 +1,14 @@
 name: "Lint PR"
-
 on:
   pull_request_target:
     types:
       - opened
       - edited
       - reopened
-
 jobs:
   main:
     name: Validate PR title
-    runs-on: blacksmith-2vcpu-ubuntu-2404
+    runs-on: ubuntu-latest
     permissions:
       pull-requests: read
     steps:
