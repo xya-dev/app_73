@@ -35,3 +35,4 @@ app_73-*.tar
 npm-debug.log
 /assets/node_modules/
 
+.envrc/
