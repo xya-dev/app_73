@@ -48,6 +48,7 @@ defmodule App73.MixProject do
        compile: false,
        depth: 1},
       {:jason, "~> 1.2"},
+      {:libcluster, "~> 3.5"},
       {:phoenix, "~> 1.7.14"},
       {:phoenix_ecto, "~> 4.5"},
       {:phoenix_html, "~> 4.1"},
