@@ -52,4 +52,10 @@ config :libcluster,
     ]
   ]
 
+config :ueberauth, Ueberauth,
+  providers: [
+    google: {Ueberauth.Strategy.Google, []},
+    github: {Ueberauth.Strategy.Github, []}
+  ]
+
 import_config "#{config_env()}.exs"
