@@ -7,14 +7,8 @@ import Config
 # before starting your production server.
 config :app_73, App73Web.Endpoint, cache_static_manifest: "priv/static/cache_manifest.json"
 
-# Configures Swoosh API Client
 config :swoosh, api_client: Swoosh.ApiClient.Finch, finch_name: App73.Finch
 
-# Disable Swoosh Local Memory Storage
 config :swoosh, local: false
 
-# Do not print debug messages in production
 config :logger, level: :info
-
-# Runtime production configuration, including reading
-# of environment variables, is done on config/runtime.exs.

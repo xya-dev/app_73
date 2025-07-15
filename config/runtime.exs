@@ -1,41 +1,44 @@
 import Config
+import Dotenvy
 
-if System.get_env("PHX_SERVER") do
+env_dir_prefix = System.get_env("RELEASE_ROOT") || Path.expand(".")
+
+source!([
+  Path.absname(".sha.env", env_dir_prefix),
+  Path.absname(".#{config_env()}.env", env_dir_prefix),
+  System.get_env()
+])
+
+if env!("PHX_SERVER", :boolean, false) do
   config :app_73, App73Web.Endpoint, server: true
 end
 
+auth_var_type = if config_env() == :test, do: :string, else: :string!
+
 config :ueberauth, Ueberauth.Strategy.Google.OAuth,
-  client_id: System.get_env("GOOGLE_CLIENT_ID"),
-  client_secret: System.get_env("GOOGLE_CLIENT_SECRET")
+  client_id: env!("GOOGLE_CLIENT_ID", auth_var_type, ""),
+  client_secret: env!("GOOGLE_CLIENT_SECRET", auth_var_type, "")
 
 config :ueberauth, Ueberauth.Strategy.Github.OAuth,
-  client_id: System.get_env("GITHUB_CLIENT_ID"),
-  client_secret: System.get_env("GITHUB_CLIENT_SECRET")
+  client_id: env!("GITHUB_CLIENT_ID", auth_var_type, ""),
+  client_secret: env!("GITHUB_CLIENT_SECRET", auth_var_type, "")
 
 if config_env() == :prod do
   database_url =
-    System.get_env("DATABASE_URL") ||
-      raise """
-      environment variable DATABASE_URL is missing.
-      For example: ecto://USER:PASS@HOST/DATABASE
-      """
+    env!("DATABASE_URL", :string!)
 
-  maybe_ipv6 = if System.get_env("ECTO_IPV6") in ~w(true 1), do: [:inet6], else: []
+  maybe_ipv6 = if env!("ECTO_IPV6", :boolean, false), do: [:inet6], else: []
 
   config :app_73, App73.Repo,
     url: database_url,
-    pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
+    pool_size: env!("POOL_SIZE", :integer!, 10),
     socket_options: maybe_ipv6
 
   secret_key_base =
-    System.get_env("SECRET_KEY_BASE") ||
-      raise """
-      environment variable SECRET_KEY_BASE is missing.
-      You can generate one by calling: mix phx.gen.secret
-      """
+    env!("SECRET_KEY_BASE", :string!)
 
-  host = System.get_env("PHX_HOST") || "example.com"
-  port = String.to_integer(System.get_env("PORT") || "4000")
+  host = env!("PHX_HOST", :string!)
+  port = env!("PORT", :integer!)
 
   config :app_73, App73Web.Endpoint,
     url: [host: host, port: 443, scheme: "https"],

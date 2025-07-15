@@ -37,4 +37,5 @@ npm-debug.log
 
 .direnv/
 
-*.local*
+*.env
+!.template.env
