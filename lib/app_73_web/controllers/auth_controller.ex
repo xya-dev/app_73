@@ -15,7 +15,7 @@ defmodule App73Web.AuthController do
 
   def callback(%{assigns: %{ueberauth_auth: auth}} = conn, _params) do
     id = auth.uid
-    # email = auth.info.email
+    email = auth.info.email
     provider = Atom.to_string(auth.provider)
 
     success(conn, "#{provider}-#{id}")

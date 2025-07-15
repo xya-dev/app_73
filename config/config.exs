@@ -4,6 +4,10 @@ config :app_73,
   ecto_repos: [App73.Repo],
   generators: [timestamp_type: :utc_datetime]
 
+config :app_73, MyApp.Repo,
+  migration_primary_key: [name: :id, type: :binary_id],
+  migration_foreign_key: [type: :binary_id]
+
 config :app_73, App73Web.Endpoint,
   url: [host: "localhost"],
   adapter: Bandit.PhoenixAdapter,

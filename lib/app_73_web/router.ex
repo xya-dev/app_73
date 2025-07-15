@@ -32,6 +32,10 @@ defmodule App73Web.Router do
 
   scope "/api", App73Web do
     pipe_through :api
+
+    scope "/webhooks", Webhooks do
+      post "/github", GithubController, :index
+    end
   end
 
   if Application.compile_env(:app_73, :dev_routes) do

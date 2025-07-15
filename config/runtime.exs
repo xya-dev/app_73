@@ -4,7 +4,6 @@ import Dotenvy
 env_dir_prefix = System.get_env("RELEASE_ROOT") || Path.expand(".")
 
 source!([
-  Path.absname(".sha.env", env_dir_prefix),
   Path.absname(".#{config_env()}.env", env_dir_prefix),
   System.get_env()
 ])
