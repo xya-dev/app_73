@@ -36,6 +36,7 @@ defmodule App73.MixProject do
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:dotenvy, "~> 1.1.0"},
       {:ecto_sql, "~> 3.10"},
+      {:ecto_ulid_next, "~> 1.0.2"},
       {:esbuild, "~> 0.8", runtime: Mix.env() == :dev},
       {:finch, "~> 0.13"},
       {:floki, ">= 0.30.0", only: :test},
