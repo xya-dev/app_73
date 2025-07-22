@@ -50,7 +50,6 @@ defmodule App73.MixProject do
        depth: 1},
       {:jason, "~> 1.2"},
       {:libcluster, "~> 3.5"},
-      {:ngrok, "~> 1.0", only: :dev},
       {:phoenix, "~> 1.7.14"},
       {:phoenix_ecto, "~> 4.5"},
       {:phoenix_html, "~> 4.1"},
