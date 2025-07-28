@@ -15,7 +15,6 @@ defmodule App73.Application do
         {Cluster.Supervisor, [topologies, [name: App73.ClusterSupervisor]]},
         {Phoenix.PubSub, name: App73.PubSub},
         {Finch, name: App73.Finch},
-        if(Mix.env() == :dev, do: {Ngrok, port: 4000, name: App73.Ngrok}),
         App73Web.Endpoint
       ]
       |> Enum.reject(&is_nil/1)
