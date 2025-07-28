@@ -35,6 +35,7 @@ defmodule App73.MixProject do
       {:bandit, "~> 1.5"},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:dotenvy, "~> 1.1.0"},
+      {:ecto_psql_extras, "~> 0.6"},
       {:ecto_sql, "~> 3.10"},
       {:ecto_ulid_next, "~> 1.0.2"},
       {:esbuild, "~> 0.8", runtime: Mix.env() == :dev},
