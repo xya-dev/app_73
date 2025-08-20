@@ -49,6 +49,7 @@ defmodule App73.MixProject do
        app: false,
        compile: false,
        depth: 1},
+      {:horde, "~> 0.9.0"},
       {:jason, "~> 1.2"},
       {:libcluster, "~> 3.5"},
       {:phoenix, "~> 1.7.14"},

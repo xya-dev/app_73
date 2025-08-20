@@ -1,15 +1,17 @@
-defmodule App73.Database.User do
+defmodule App73.Database.Schema.Profile do
   @moduledoc """
   User model for the database.
   """
 
   use Ecto.Schema
 
-  @primary_key {:id, Ecto.ULID, autogenerate: true}
+  @primary_key {:id, :string, autogenerate: false}
 
-  schema "users" do
+  schema "profiles" do
     field :email, :string
     field :provider, :string
     field :provider_id, :string
+
+    timestamps()
   end
 end

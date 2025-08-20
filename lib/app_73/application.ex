@@ -15,6 +15,7 @@ defmodule App73.Application do
         {Cluster.Supervisor, [topologies, [name: App73.ClusterSupervisor]]},
         {Phoenix.PubSub, name: App73.PubSub},
         {Finch, name: App73.Finch},
+        {App73.Domain.Supervisor, []},
         App73Web.Endpoint
       ]
       |> Enum.reject(&is_nil/1)
