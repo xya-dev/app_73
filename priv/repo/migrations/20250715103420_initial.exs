@@ -6,7 +6,8 @@ defmodule App73.Repo.Migrations.Initial do
   use Ecto.Migration
 
   def change do
-    create table("users") do
+    create table("profiles", primary_key: false) do
+      add :id, :string, primary_key: true, null: false
       add :email, :string, null: false
       add :provider, :string, null: false
       add :provider_id, :string, null: false
@@ -17,7 +18,7 @@ defmodule App73.Repo.Migrations.Initial do
     create table("accounts") do
       add :name, :string, null: false
       add :slug, :string, null: false
-      add :owner_id, references("users", on_delete: :delete_all), null: false
+      add(:owner_id, references("profiles", on_delete: :delete_all, type: :string), null: false)
 
       timestamps()
     end
