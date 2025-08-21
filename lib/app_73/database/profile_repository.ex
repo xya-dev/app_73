@@ -28,6 +28,6 @@ defmodule App73.Database.ProfileRepository do
       provider: actor.provider,
       provider_id: actor.provider_id
     }
-    |> Repo.insert()
+    |> Repo.upsert()
   end
 end

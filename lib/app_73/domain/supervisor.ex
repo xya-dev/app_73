@@ -14,7 +14,9 @@ defmodule App73.Domain.Supervisor do
   def init(:ok) do
     children = [
       {Horde.Registry, keys: :unique, name: App73.Domain.Profile.Registry},
-      {Horde.DynamicSupervisor, name: App73.Domain.Profile.Supervisor, strategy: :one_for_one}
+      {Horde.DynamicSupervisor, name: App73.Domain.Profile.Supervisor, strategy: :one_for_one},
+      {Horde.Registry, keys: :unique, name: App73.Domain.Account.Registry},
+      {Horde.DynamicSupervisor, name: App73.Domain.Account.Supervisor, strategy: :one_for_one}
     ]
 
     Supervisor.init(children, strategy: :one_for_one)
