@@ -3,7 +3,7 @@ defmodule App73.Profile.Actor do
   Represents user profile.
   """
 
-  alias App73.Database.ProfileRepository
+  alias App73.Repository
   alias App73.Profile.Command
 
   use App73.Utils.Actor,
@@ -54,7 +54,7 @@ defmodule App73.Profile.Actor do
       created_at: DateTime.utc_now()
     }
 
-    case ProfileRepository.persist_actor(new_profile) do
+    case Repository.persist_actor(new_profile) do
       {:ok, _} -> reply({:ok, new_profile}, new_profile)
       {:error, reason} -> reply({:error, reason}, state)
     end
@@ -69,7 +69,7 @@ defmodule App73.Profile.Actor do
   end
 
   def handle_cast({:load, id}, _state) when is_binary(id) do
-    case ProfileRepository.get_by_id(id) do
+    case Repository.get_by_id(id) do
       nil ->
         %__MODULE__{
           id: id
