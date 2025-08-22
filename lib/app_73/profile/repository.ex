@@ -1,9 +1,9 @@
-defmodule App73.Database.ProfileRepository do
+defmodule App73.Repository do
   @moduledoc """
   Repository for managing user profiles in the database.
   """
 
-  alias App73.Database.Schema.Profile
+  alias App73.Schema.Profile
   alias App73.Profile.Actor
   alias App73.Repo
   alias App73.Utils.Option

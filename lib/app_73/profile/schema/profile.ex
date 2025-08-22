@@ -1,4 +1,4 @@
-defmodule App73.Database.Schema.Profile do
+defmodule App73.Schema.Profile do
   @moduledoc """
   User model for the database.
   """
