@@ -1,9 +1,9 @@
-defmodule App73.Domain.Profile.Command do
+defmodule App73.Profile.Command do
   @moduledoc """
   Represents commands for user profile management.
   """
 
-  alias App73.Domain.Profile.Command
+  alias App73.Profile.Command
   @type t :: Command.Create.t()
 
   defmodule Create do

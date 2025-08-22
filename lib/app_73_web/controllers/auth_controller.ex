@@ -3,7 +3,7 @@ defmodule App73Web.AuthController do
   Handles authentication callbacks and session management.
   """
 
-  alias App73.Domain.Profile
+  alias App73.Profile
   require Logger
   use App73Web, :controller
   plug Ueberauth
@@ -39,13 +39,13 @@ defmodule App73Web.AuthController do
 
       case profile do
         nil ->
-          cmd = %App73.Domain.Profile.Command.Create{
+          cmd = %App73.Profile.Command.Create{
             email: email,
             provider: provider,
             provider_id: provider_id
           }
 
-          App73.Domain.Profile.Actor.create(pid, cmd)
+          App73.Profile.Actor.create(pid, cmd)
           Logger.info("Created new profile for user #{user_id}")
 
         _ ->
