@@ -11,7 +11,15 @@ defmodule App73.Schema.Profile do
     field :email, :string
     field :provider, :string
     field :provider_id, :string
+    field :version, :integer, default: 1
 
     timestamps()
+  end
+
+  def changeset(:update, struct, params \\ %{}) do
+    struct
+    |> Ecto.Changeset.cast(params, [:version])
+    |> Ecto.Changeset.validate_required([:version])
+    |> Ecto.Changeset.optimistic_lock(:version)
   end
 end
