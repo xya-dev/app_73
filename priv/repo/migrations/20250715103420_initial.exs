@@ -16,8 +16,8 @@ defmodule App73.Repo.Migrations.Initial do
       timestamps()
     end
 
-    create index("profiles", [:email], concurrently: true, unique: true)
-    create unique_index("profiles", [:provider, :provider_id], concurrently: true, unique: true)
+    create index("profiles", [:email], unique: true)
+    create unique_index("profiles", [:provider, :provider_id], unique: true)
 
     create table("accounts") do
       add :name, :string, null: false
