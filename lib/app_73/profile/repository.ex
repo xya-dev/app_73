@@ -6,7 +6,7 @@ defmodule App73.Repository do
   alias App73.Schema.Profile
   alias App73.Profile.Actor
   alias App73.Repo
-  alias App73.Utils.Option
+  alias App73.Common.Option
 
   def get_by_id(id) when is_binary(id) do
     Repo.get(Profile, id)

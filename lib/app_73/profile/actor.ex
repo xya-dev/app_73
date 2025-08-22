@@ -6,7 +6,7 @@ defmodule App73.Profile.Actor do
   alias App73.Repository
   alias App73.Profile.Command
 
-  use App73.Utils.Actor,
+  use App73.Common.Actor,
     registry: App73.Profile.Registry,
     supervisor: App73.Profile.Supervisor,
     # 15 minutes in milliseconds

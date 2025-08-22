@@ -1,4 +1,4 @@
-defmodule App73.Utils.Actor do
+defmodule App73.Common.Actor do
   @moduledoc """
   A utility module for creating actors in a distributed system using Horde.
   """

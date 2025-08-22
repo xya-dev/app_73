@@ -1,4 +1,4 @@
-defmodule App73.Utils.Option do
+defmodule App73.Common.Option do
   @moduledoc """
   Utility functions for working with options.
   """

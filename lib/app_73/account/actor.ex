@@ -3,7 +3,7 @@ defmodule App73.Account.Actor do
   An actor representing a user account in the system.
   """
 
-  use App73.Utils.Actor,
+  use App73.Common.Actor,
     registry: App73.Account.Registry,
     supervisor: App73.Account.Supervisor,
     # 15 minutes in milliseconds
