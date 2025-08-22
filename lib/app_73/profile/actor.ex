@@ -1,14 +1,14 @@
-defmodule App73.Domain.Profile.Actor do
+defmodule App73.Profile.Actor do
   @moduledoc """
   Represents user profile.
   """
 
   alias App73.Database.ProfileRepository
-  alias App73.Domain.Profile.Command
+  alias App73.Profile.Command
 
   use App73.Utils.Actor,
-    registry: App73.Domain.Profile.Registry,
-    supervisor: App73.Domain.Profile.Supervisor,
+    registry: App73.Profile.Registry,
+    supervisor: App73.Profile.Supervisor,
     # 15 minutes in milliseconds
     timeout: 15 * 60 * 1000
 

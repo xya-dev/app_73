@@ -4,7 +4,7 @@ defmodule App73.Database.ProfileRepository do
   """
 
   alias App73.Database.Schema.Profile
-  alias App73.Domain.Profile.Actor
+  alias App73.Profile.Actor
   alias App73.Repo
   alias App73.Utils.Option
 
@@ -28,6 +28,6 @@ defmodule App73.Database.ProfileRepository do
       provider: actor.provider,
       provider_id: actor.provider_id
     }
-    |> Repo.upsert()
+    |> Repo.insert()
   end
 end

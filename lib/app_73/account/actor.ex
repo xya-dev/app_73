@@ -1,11 +1,11 @@
-defmodule App73.Domain.Account.Actor do
+defmodule App73.Account.Actor do
   @moduledoc """
   An actor representing a user account in the system.
   """
 
   use App73.Utils.Actor,
-    registry: App73.Domain.Account.Registry,
-    supervisor: App73.Domain.Account.Supervisor,
+    registry: App73.Account.Registry,
+    supervisor: App73.Account.Supervisor,
     # 15 minutes in milliseconds
     timeout: 15 * 60 * 1000
 
