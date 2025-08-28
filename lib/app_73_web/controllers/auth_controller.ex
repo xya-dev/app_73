@@ -4,6 +4,8 @@ defmodule App73Web.AuthController do
   """
 
   alias App73.Profile
+  alias App73.Common.{Result, Option}
+  alias App73.Read
   require Logger
   use App73Web, :controller
   plug Ueberauth
@@ -26,37 +28,41 @@ defmodule App73Web.AuthController do
   end
 
   defp success(conn, %Ueberauth.Auth{
-         uid: provider_id,
+         uid: provider_user_id,
          provider: provider,
          info: %Ueberauth.Auth.Info{email: email}
        })
-       when is_binary(provider_id) and is_atom(provider) and is_binary(email) do
+       when is_binary(provider_user_id) and is_atom(provider) and is_binary(email) do
     provider = Atom.to_string(provider)
-    user_id = Profile.Actor.generate_id(provider, provider_id)
 
-    with {:ok, pid} <- Profile.Actor.get(user_id) do
-      profile = Profile.Actor.state(pid)
-
-      case profile do
-        nil ->
-          cmd = %App73.Profile.Command.Create{
-            email: email,
-            provider: provider,
-            provider_id: provider_id
-          }
-
-          App73.Profile.Actor.create(pid, cmd)
-          Logger.info("Created new profile for user #{user_id}")
-
-        _ ->
-          Logger.info("User #{user_id} already exists")
-      end
+    create_new_profile = fn ->
+      Profile.Actor.new()
+      |> Result.tap(fn {pid, _id} ->
+        Profile.Actor.create(pid, %Profile.Command.Create{
+          email: email,
+          provider: provider,
+          provider_user_id: provider_user_id
+        })
+      end)
     end
 
-    conn
-    |> put_flash(:info, "Successfully authenticated.")
-    |> put_session(:user_id, user_id)
-    |> configure_session(renew: true)
-    |> redirect(to: ~p"/")
+    Read.ProfileRepository.get_by_provider_user_id(provider, provider_user_id)
+    |> Result.flat_map(fn profile ->
+      profile
+      |> Option.map(fn p -> Profile.Actor.get(p.id) end)
+      |> Option.or_else(create_new_profile)
+    end)
+    |> Result.map(fn {_pid, id} ->
+      conn
+      |> put_flash(:info, "Successfully authenticated.")
+      |> put_session(:user_id, id)
+      |> configure_session(renew: true)
+      |> redirect(to: ~p"/")
+    end)
+    |> Result.ok_or_else(fn reason ->
+      conn
+      |> put_flash(:error, "Authentication error: #{inspect(reason)}")
+      |> redirect(to: ~p"/")
+    end)
   end
 end

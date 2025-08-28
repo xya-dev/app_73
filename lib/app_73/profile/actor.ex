@@ -16,7 +16,7 @@ defmodule App73.Profile.Actor do
           id: String.t(),
           email: String.t(),
           provider: String.t(),
-          provider_id: String.t(),
+          provider_user_id: String.t(),
           created_at: DateTime.t()
         }
 
@@ -24,13 +24,9 @@ defmodule App73.Profile.Actor do
     :id,
     :email,
     :provider,
-    :provider_id,
+    :provider_user_id,
     :created_at
   ]
-
-  def generate_id(provider, provider_id) when is_binary(provider) and is_binary(provider_id) do
-    "#{provider}-#{provider_id}"
-  end
 
   def init(id) do
     GenServer.cast(self(), {:load, id})
@@ -50,7 +46,7 @@ defmodule App73.Profile.Actor do
       id: state.id,
       email: cmd.email,
       provider: cmd.provider,
-      provider_id: cmd.provider_id,
+      provider_user_id: cmd.provider_user_id,
       created_at: DateTime.utc_now()
     }
 
@@ -70,19 +66,31 @@ defmodule App73.Profile.Actor do
 
   def handle_cast({:load, id}, _state) when is_binary(id) do
     case Repository.get_by_id(id) do
-      nil ->
-        %__MODULE__{
-          id: id
-        }
+      {:ok, nil} ->
+        Logger.debug("No profile found, initializing new profile", id: id)
 
-      profile ->
-        profile
+        noreply(%__MODULE__{
+          id: id
+        })
+
+      {:ok, profile} ->
+        Logger.debug("Loaded profile", id: id)
+
+        noreply({:ok, profile})
+
+      {:error, reason} ->
+        Logger.error("Failed to load profile", id: id, reason: reason)
+
+        {:stop, :shutdown,
+         %__MODULE__{
+           id: id
+         }}
     end
-    |> noreply()
   end
 
   def handle_info(:timeout, state) do
-    Logger.debug("Profile actor with ID: #{state.id} timed out")
+    Logger.debug("Profile actor timed out", id: state.id)
+
     {:stop, :normal, state}
   end
 end

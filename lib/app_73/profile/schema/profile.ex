@@ -10,7 +10,7 @@ defmodule App73.Schema.Profile do
   schema "profiles" do
     field :email, :string
     field :provider, :string
-    field :provider_id, :string
+    field :provider_user_id, :string
     field :version, :integer, default: 1
 
     timestamps()
