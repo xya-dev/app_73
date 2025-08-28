@@ -8,6 +8,15 @@ config :app_73, App73.Repo,
   pool: Ecto.Adapters.SQL.Sandbox,
   pool_size: System.schedulers_online() * 2
 
+config :app_73, App73.ReadRepo,
+  username: "postgres",
+  password: "postgres",
+  hostname: "localhost",
+  database: "app_73_test#{System.get_env("MIX_TEST_PARTITION")}",
+  pool: Ecto.Adapters.SQL.Sandbox,
+  pool_size: System.schedulers_online() * 2,
+  read_only: true
+
 config :app_73, App73Web.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4002],
   secret_key_base: "/b+IjVo/rhKeS3ucNJEd62rI7MpeNjjTw0DxN9Q22QnplC2A3pGZ79gEwCYMhZtQ",

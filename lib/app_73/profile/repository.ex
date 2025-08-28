@@ -7,27 +7,32 @@ defmodule App73.Repository do
   alias App73.Profile.Actor
   alias App73.Repo
   alias App73.Common.Option
+  alias App73.Common.Result
 
   def get_by_id(id) when is_binary(id) do
-    Repo.get(Profile, id)
-    |> Option.map(
-      &%Actor{
-        id: &1.id,
-        email: &1.email,
-        provider: &1.provider,
-        provider_id: &1.provider_id,
-        created_at: &1.inserted_at
-      }
-    )
+    Result.call(fn ->
+      Repo.get(Profile, id)
+      |> Option.map(
+        &%Actor{
+          id: &1.id,
+          email: &1.email,
+          provider: &1.provider,
+          provider_user_id: &1.provider_user_id,
+          created_at: &1.inserted_at
+        }
+      )
+    end)
   end
 
   def persist_actor(%Actor{} = actor) do
-    %Profile{
-      id: actor.id,
-      email: actor.email,
-      provider: actor.provider,
-      provider_id: actor.provider_id
-    }
-    |> Repo.insert()
+    Result.call(fn ->
+      %Profile{
+        id: actor.id,
+        email: actor.email,
+        provider: actor.provider,
+        provider_user_id: actor.provider_user_id
+      }
+      |> Repo.insert()
+    end)
   end
 end

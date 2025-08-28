@@ -10,14 +10,14 @@ defmodule App73.Repo.Migrations.Initial do
       add :id, :string, primary_key: true, null: false
       add :email, :string, null: false
       add :provider, :string, null: false
-      add :provider_id, :string, null: false
+      add :provider_user_id, :string, null: false
       add :version, :integer, null: false, default: 1
 
       timestamps()
     end
 
     create index("profiles", [:email], unique: true)
-    create unique_index("profiles", [:provider, :provider_id], unique: true)
+    create unique_index("profiles", [:provider, :provider_user_id], unique: true)
 
     create table("organizations") do
       add :name, :string, null: false

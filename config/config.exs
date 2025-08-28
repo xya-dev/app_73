@@ -1,7 +1,7 @@
 import Config
 
 config :app_73,
-  ecto_repos: [App73.Repo],
+  ecto_repos: [App73.Repo, App73.ReadRepo],
   generators: [timestamp_type: :utc_datetime]
 
 config :app_73, MyApp.Repo,
@@ -42,7 +42,7 @@ config :tailwind,
 
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
-  metadata: [:request_id]
+  metadata: [:request_id, :id, :reason]
 
 config :phoenix, :json_library, Jason
 
