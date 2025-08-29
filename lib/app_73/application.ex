@@ -12,6 +12,7 @@ defmodule App73.Application do
       [
         App73Web.Telemetry,
         App73.Repo,
+        App73.ReadRepo,
         {Cluster.Supervisor, [topologies, [name: App73.ClusterSupervisor]]},
         {Phoenix.PubSub, name: App73.PubSub},
         {Finch, name: App73.Finch},

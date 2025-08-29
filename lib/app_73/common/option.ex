@@ -10,4 +10,12 @@ defmodule App73.Common.Option do
   def map(value, fun) when is_function(fun, 1) do
     fun.(value)
   end
+
+  def or_else(nil, fun) when is_function(fun, 0) do
+    fun.()
+  end
+
+  def or_else(value, _fun) do
+    value
+  end
 end
