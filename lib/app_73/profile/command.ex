@@ -14,13 +14,13 @@ defmodule App73.Profile.Command do
     @type t() :: %__MODULE__{
             email: String.t(),
             provider: String.t(),
-            provider_id: String.t()
+            provider_user_id: String.t()
           }
 
     defstruct [
       :email,
       :provider,
-      :provider_id
+      :provider_user_id
     ]
   end
 end

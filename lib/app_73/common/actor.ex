@@ -44,11 +44,11 @@ defmodule App73.Common.Actor do
              ) do
           {:ok, pid} ->
             Logger.debug("Started #{__MODULE__} actor with ID: #{id}")
-            {:ok, pid}
+            {:ok, {pid, id}}
 
           {:error, {:already_started, pid}} ->
             Logger.debug("#{__MODULE__} actor with ID: #{id} already started")
-            {:ok, pid}
+            {:ok, {pid, id}}
 
           {:error, reason} ->
             Logger.error(
@@ -57,6 +57,11 @@ defmodule App73.Common.Actor do
 
             {:error, reason}
         end
+      end
+
+      def new() do
+        id = Ecto.ULID.generate()
+        get(id)
       end
     end
   end

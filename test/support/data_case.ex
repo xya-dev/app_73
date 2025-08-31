@@ -36,8 +36,15 @@ defmodule App73.DataCase do
   Sets up the sandbox based on the test tags.
   """
   def setup_sandbox(tags) do
-    pid = Ecto.Adapters.SQL.Sandbox.start_owner!(App73.Repo, shared: not tags[:async])
-    on_exit(fn -> Ecto.Adapters.SQL.Sandbox.stop_owner(pid) end)
+    repo_pid = Ecto.Adapters.SQL.Sandbox.start_owner!(App73.Repo, shared: not tags[:async])
+
+    read_repo_pid =
+      Ecto.Adapters.SQL.Sandbox.start_owner!(App73.ReadRepo, shared: not tags[:async])
+
+    on_exit(fn ->
+      Ecto.Adapters.SQL.Sandbox.stop_owner(repo_pid)
+      Ecto.Adapters.SQL.Sandbox.stop_owner(read_repo_pid)
+    end)
   end
 
   @doc """
