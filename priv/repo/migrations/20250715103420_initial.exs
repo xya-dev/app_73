@@ -8,7 +8,7 @@ defmodule App73.Repo.Migrations.Initial do
   def change do
     create table("profiles", primary_key: false) do
       add :id, :string, primary_key: true, null: false
-      add :email, :string, null: false
+      add :email, :string, null: true
       add :provider, :string, null: false
       add :provider_user_id, :string, null: false
       add :version, :integer, null: false, default: 1
@@ -16,7 +16,7 @@ defmodule App73.Repo.Migrations.Initial do
       timestamps()
     end
 
-    create index("profiles", [:email], unique: true)
+    create index("profiles", [:email], unique: false)
     create unique_index("profiles", [:provider, :provider_user_id], unique: true)
 
     create table("organizations") do
