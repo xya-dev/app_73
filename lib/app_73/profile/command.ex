@@ -13,7 +13,7 @@ defmodule App73.Profile.Command do
 
     @type t() :: %__MODULE__{
             email: String.t(),
-            provider: String.t(),
+            provider: String.t() | nil,
             provider_user_id: String.t()
           }
 

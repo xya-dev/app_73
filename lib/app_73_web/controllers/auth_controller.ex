@@ -16,24 +16,40 @@ defmodule App73Web.AuthController do
     |> redirect(to: "/")
   end
 
-  def callback(%{assigns: %{ueberauth_auth: auth}} = conn, _params) do
-    success(conn, auth)
+  def callback(
+        %{
+          assigns: %{
+            ueberauth_auth: %Ueberauth.Auth{
+              uid: provider_user_id,
+              provider: provider,
+              info: %Ueberauth.Auth.Info{email: email}
+            }
+          }
+        } = conn,
+        _params
+      ) do
+    create_account(conn, provider_user_id, provider, email)
   end
 
-  def delete(conn, _params) do
-    conn
-    |> delete_session(:user_id)
-    |> put_flash(:info, "Logged out.")
-    |> redirect(to: ~p"/")
+  def callback(
+        %{
+          assigns: %{
+            ueberauth_auth: %Ueberauth.Auth{
+              uid: provider_user_id,
+              provider: provider
+            }
+          }
+        } = conn,
+        _params
+      ) do
+    create_account(conn, provider_user_id, provider, nil)
   end
 
-  defp success(conn, %Ueberauth.Auth{
-         uid: provider_user_id,
-         provider: provider,
-         info: %Ueberauth.Auth.Info{email: email}
-       })
-       when is_binary(provider_user_id) and is_atom(provider) and is_binary(email) do
+  defp create_account(conn, id, provider, email)
+       when is_atom(provider) and (is_nil(email) or is_binary(email)) do
     provider = Atom.to_string(provider)
+
+    id = to_string(id)
 
     create_new_profile = fn ->
       Profile.Actor.new()
@@ -41,12 +57,12 @@ defmodule App73Web.AuthController do
         Profile.Actor.create(pid, %Profile.Command.Create{
           email: email,
           provider: provider,
-          provider_user_id: provider_user_id
+          provider_user_id: id
         })
       end)
     end
 
-    Read.ProfileRepository.get_by_provider_user_id(provider, provider_user_id)
+    Read.ProfileRepository.get_by_provider_user_id(provider, id)
     |> Result.flat_map(fn profile ->
       profile
       |> Option.map(fn p -> Profile.Actor.get(p.id) end)
@@ -64,5 +80,12 @@ defmodule App73Web.AuthController do
       |> put_flash(:error, "Authentication error: #{inspect(reason)}")
       |> redirect(to: ~p"/")
     end)
+  end
+
+  def delete(conn, _params) do
+    conn
+    |> delete_session(:user_id)
+    |> put_flash(:info, "Logged out.")
+    |> redirect(to: ~p"/")
   end
 end
